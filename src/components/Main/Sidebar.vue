@@ -3,16 +3,19 @@
     <SideMenuItem title="Inbox" classeIcon="fa-inbox" :active="InboxInitial" @click="ActiveClick('Inbox')"/>
     <SideMenuItem title="Today" classeIcon="fa-calendar-day" :active="TodayInitial" @click="ActiveClick('Today')" />
     <SideMenuItem title="Week" classeIcon="fa-calendar-week" :active="WeekInitial" @click="ActiveClick('Week')"/>
+    <Projects />
   </aside>
 </template>
 
 <script>
   import SideMenuItem from './SidebarMenu/SideMenuItem.vue';
+  import Projects from './SidebarMenu/Projects/Projects.vue';
 
 export default {
   name: 'Sidebar',
   components: {
     SideMenuItem,
+    Projects
 },
   data () {
     return {
