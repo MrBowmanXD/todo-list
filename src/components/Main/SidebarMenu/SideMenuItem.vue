@@ -13,11 +13,6 @@ export default {
     classeIcon: String,
     classeDiv: String,
     active: Boolean
-  },
-  data () {
-    return {
-      active: this.active
-    }
   }
 }
 </script>
@@ -28,6 +23,10 @@ export default {
     align-items: center;
     padding: 15px;
     cursor: pointer;
+  }
+
+  .Container:hover {
+    background-color: #1CAC78;
   }
 
   .Container h4 {
