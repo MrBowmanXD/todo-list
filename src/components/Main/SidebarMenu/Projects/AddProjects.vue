@@ -1,4 +1,8 @@
 <template>
+  <div class="CreatedProjectContainer" v-if="NewCreatedProject">
+    <CreatedProject />
+  </div>
+
   <div class="AddProjectContainer container" v-if="!AtivarFormulario" @click="MostrarFormulario">
     <div class="AddProjectIcon">
       <i class="fa-solid fa-plus"></i>
@@ -7,21 +11,26 @@
       {{ title }}
     </h4>
   </div>
-  <Formulario :FormularioAtivo="AtivarFormulario" @clicked="CancelActivated"/>
+  <div class="FormularioContainer" v-if="AtivarFormulario">
+    <Formulario :FormularioAtivo="AtivarFormulario" @clicked="CancelActivated"/>
+  </div>
 </template>
 
 <script>
   import Formulario from './Formulario.vue';
+  import CreatedProject from './CreatedProjects/CreatedProject.vue';
 
 export default {
   name: 'AddProjects',
   components: {
-    Formulario
+    Formulario,
+    CreatedProject
   },
   data () {
     return {
       title: 'Add Project',
       AtivarFormulario: false,
+      NewCreatedProject: true, // set to true in order to style the created project component
     }
   },
   methods: {

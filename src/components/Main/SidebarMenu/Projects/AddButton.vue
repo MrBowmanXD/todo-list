@@ -14,5 +14,8 @@ export default {
 </script>
 
 <style scoped>
-
+  button {
+    width: 50%;
+    border: none;
+  }
 </style>

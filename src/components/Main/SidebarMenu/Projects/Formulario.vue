@@ -1,11 +1,11 @@
 <template>
-  <form v-if="AtivarFormulario">
+  <form>
     <div class="InputContainer">
       <input type="text" name="projeto" id="add-project">
     </div>
     <div class="ButtonContainer">
-      <AddButton text="Add" @click="AddProject($event)" />
-      <AddButton text="Cancel" @click="CancelProject($event)" />
+      <AddButton class="green" text="Add" @click="AddProject($event)" />
+      <AddButton class="red" text="Cancel" @click="CancelProject($event)" />
     </div>
   </form>
 </template>
@@ -30,6 +30,8 @@ export default {
     AddProject(e) {
       e.preventDefault();
       console.log(document.querySelector('input').value);
+      this.AtivarFormulario = false;
+      this.$emit('clicked', this.AtivarFormulario);
     },
     CancelProject(e) {
       e.preventDefault();
@@ -44,5 +46,13 @@ export default {
 </script>
 
 <style scoped>
-
+  .InputContainer input {
+    width: 100%;
+  }
+  .green {
+    background-color: green;
+  }
+  .red {
+    background-color: red;
+  }
 </style>
