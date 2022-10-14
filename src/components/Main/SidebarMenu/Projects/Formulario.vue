@@ -1,7 +1,7 @@
 <template>
   <form>
     <div class="InputContainer">
-      <input type="text" name="projeto" id="add-project">
+      <input type="text" name="projeto" class="AddProjectInput" id="AddProjectInput">
     </div>
     <div class="ButtonContainer">
       <AddButton class="green" text="Add" @click="AddProject($event)" />
@@ -24,19 +24,21 @@ export default {
   data() {
     return {
       AtivarFormulario: false,
+      CreatedProjectTitle: ''
     }
   },
   methods: {
     AddProject(e) {
       e.preventDefault();
       console.log(document.querySelector('input').value);
-      this.AtivarFormulario = false;
-      this.$emit('clicked', this.AtivarFormulario);
+      this.AtivarFormulario = true;
+      this.CreatedProjectTitle = document.querySelector('.AddProjectInput').value;
+      this.$emit('clickedAdd', [this.AtivarFormulario, this.CreatedProjectTitle]);
     },
     CancelProject(e) {
       e.preventDefault();
       this.AtivarFormulario = false;
-      this.$emit('clicked', this.AtivarFormulario);
+      this.$emit('clickedCancel', this.AtivarFormulario);
     }
   },
   created () {

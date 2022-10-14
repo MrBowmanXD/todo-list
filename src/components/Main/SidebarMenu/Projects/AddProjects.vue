@@ -1,9 +1,19 @@
 <template>
-  <div class="CreatedProjectContainer" v-if="NewCreatedProject">
+  <div
+    v-for="(titleProject, index) in NewProjectTitle"
+    :key="index"
+    :class="NewCreatedProject ? `project${index} CreatedProjectContainer` : ''"
+  >
     <CreatedProject />
+    <div>
+      {{ titleProject }}
+    </div>
   </div>
-
-  <div class="AddProjectContainer container" v-if="!AtivarFormulario" @click="MostrarFormulario">
+  <div
+    class="AddProjectContainer container"
+    v-if="!AtivarFormulario"
+    @click="MostrarFormulario"
+  >
     <div class="AddProjectIcon">
       <i class="fa-solid fa-plus"></i>
     </div>
@@ -12,26 +22,33 @@
     </h4>
   </div>
   <div class="FormularioContainer" v-if="AtivarFormulario">
-    <Formulario :FormularioAtivo="AtivarFormulario" @clicked="CancelActivated"/>
+    <Formulario
+      :FormularioAtivo="AtivarFormulario"
+      @clickedAdd="AddActivated"
+      @clickedCancel="CancelActivated"
+    />
   </div>
 </template>
 
 <script>
-  import Formulario from './Formulario.vue';
-  import CreatedProject from './CreatedProjects/CreatedProject.vue';
+import Formulario from "./Formulario.vue";
+import CreatedProject from "./CreatedProjects/CreatedProject.vue";
 
 export default {
-  name: 'AddProjects',
+  name: "AddProjects",
   components: {
     Formulario,
-    CreatedProject
+    CreatedProject,
   },
-  data () {
+  data() {
     return {
-      title: 'Add Project',
+      title: "Add Project",
       AtivarFormulario: false,
-      NewCreatedProject: true, // set to true in order to style the created project component
-    }
+      NewCreatedProject: false,
+      NewCreatedProjectTitle: [],
+      NewProjectTitle: [],
+      temporaryProject: "",
+    };
   },
   methods: {
     MostrarFormulario() {
@@ -39,29 +56,60 @@ export default {
     },
     CancelActivated(value) {
       if (value === false) {
-        this.AtivarFormulario =false;
+        this.AtivarFormulario = false;
       }
-    }
-  }
-}
+    },
+    AddActivated(value) {
+      if (value[0] === true) {
+        this.NewCreatedProject = true;
+        this.AtivarFormulario = false;
+        this.NewProjectTitle.push(value[1]);
+        setTimeout(() => {
+          for (let i = 0; i < this.NewProjectTitle.length; i++) {
+            let project = document.querySelector(`.project${i}`);
+            project.addEventListener("click", (e) => {
+              let projects = document.querySelectorAll(".CreatedProjectContainer");
+              projects.forEach((project) => {
+                project.classList.remove("ativo");
+              });
+
+              if (e.target == project) {
+                project.classList.add("ativo");
+              }
+            });
+          }
+        }, 1000);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .AddProjectContainer {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    cursor: pointer;
-  }
-  .AddProjectContainer:hover {
-    background-color: #1CAC78;
-  }
+.AddProjectContainer,
+.CreatedProjectContainer {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+}
+.AddProjectContainer:hover,
+.CreatedProjectContainer:hover {
+  background-color: #1cac78;
+}
 
-  .AddProjectTitle {
-    font-weight: 300;
-    font-size: 24px;
-  }
-  .AddProjectIcon {
-    margin-right: 15px;
-  }
+.CreatedProjectContainer li {
+  text-decoration: none;
+}
+
+.AddProjectTitle {
+  font-weight: 300;
+  font-size: 24px;
+}
+.AddProjectIcon {
+  margin-right: 15px;
+}
+.ativo {
+  background-color: #1cac78;
+}
 </style>
